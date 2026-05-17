@@ -1,0 +1,30 @@
+# Data files
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Environment
+.env
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# Models
+models/*.joblib
+models/*.pt
+!models/.gitkeep
+
+# Logs
+logs/
+!logs/.gitkeep
+
+# IDE
+.vscode/
+.idea/

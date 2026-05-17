@@ -1,0 +1,7 @@
+model,n_anomalies,anomaly_rate,precision,recall
+IsolationForest,40,0.05056890012642225,0.0,0.0
+LOF,40,0.05056890012642225,0.0,0.0
+OneClassSVM,39,0.0493046776232617,0.0,0.0
+EllipticEnvelope,40,0.05056890012642225,0.0,0.0
+DBSCAN_anomaly,23,0.029077117572692796,0.0,0.0
+DeepAutoencoder,40,0.05056890012642225,0.0,0.0
