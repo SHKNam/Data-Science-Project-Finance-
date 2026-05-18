@@ -11,6 +11,7 @@
 - CRITICAL: API 키는 .env 파일에 저장하고 절대 코드에 하드코딩하지 말 것
 - CRITICAL: 원본 데이터(data/raw/)는 수정하지 말 것. 전처리 결과는 data/processed/에 저장
 - 분석 코드는 src/에, 탐색적 분석은 notebooks/에 작성
+- 대시보드는 `dashboard/`에 격리. 데이터는 read-only로 `public/data/`로만 export (Python → JSON)
 
 ## 개발 프로세스
 - 커밋 메시지는 conventional commits 형식을 따를 것 (feat:, fix:, docs:, refactor:)
@@ -70,3 +71,32 @@ source .venv/bin/activate         # 가상환경 활성화
 python3 src/data_collection.py    # 데이터 수집
 jupyter notebook                   # 노트북 실행
 python3 -m pytest tests/ -v       # 테스트 실행
+
+# 사전 분석 (대시보드 산출물 생성) — 모두 OMP_NUM_THREADS=1 필수 (macOS)
+OMP_NUM_THREADS=1 python3 src/phase1_explainability.py    # ROC/PR/혼동행렬/SHAP/학습곡선
+OMP_NUM_THREADS=1 python3 src/phase2_cluster_labeling.py  # 클러스터 centroid + 자동 라벨
+OMP_NUM_THREADS=1 python3 src/phase3_benford.py           # Benford's Law 자릿수 분포
+OMP_NUM_THREADS=1 python3 src/phase4_timeseries.py        # ARIMA/Prophet/LSTM/GRU/Transformer
+OMP_NUM_THREADS=1 python3 src/cross_phase_analysis.py     # 위험×이상치×클러스터 교차
+
+# 대시보드 (Next.js 16 + React 19 + Tailwind v4 + Recharts)
+python3 dashboard/scripts/export_data.py                   # CSV → JSON (31개 파일)
+cd dashboard && npm install                                # 의존성
+cd dashboard && npm run dev                                # http://localhost:3000
+cd dashboard && npm run build                              # 프로덕션 (Static + SSG + Dynamic)
+
+## 대시보드 라우트 (20개)
+- `/`, `/summary` — 랜딩 + Executive Summary (페르소나 5종)
+- `/phase-1~4` — 16/9/7/5 모델 비교 + 시각화
+- `/cross-phase` — Sankey + 4분면 + stacked
+- `/company/[corp_code]` — 200개 사전 생성 (SSG)
+- `/compare`, `/watchlist` — localStorage 지속
+- `/guides/[slug]` — 6개 시나리오 (find-risky-companies, evaluate-a-company 등)
+- `/models`, `/data`, `/validation`, `/glossary`
+- `/present` — 발표 모드 (←/→), `/help` — 단축키 + FAQ
+- `not-found.tsx`, `error.tsx`
+
+## 키보드 단축키
+- ⌘/Ctrl + K, / — 검색 / 명령 팔레트
+- g + 1~4 — Phase 페이지, g+s/c/w/m/d/v/h — 주요 페이지
+- ? — 단축키 도움말 모달, ESC — 닫기

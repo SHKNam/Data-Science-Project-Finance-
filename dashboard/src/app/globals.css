@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* ─────────────── Dark Theme Tokens (oklch) ─────────────── */
+:root {
+  --background: oklch(0.13 0.005 264);
+  --surface: oklch(0.17 0.008 264);
+  --surface-2: oklch(0.21 0.010 264);
+  --border: oklch(0.27 0.012 264);
+  --border-strong: oklch(0.35 0.015 264);
+  --text: oklch(0.95 0.005 264);
+  --text-muted: oklch(0.65 0.010 264);
+  --text-dim: oklch(0.50 0.010 264);
+  --primary: oklch(0.72 0.18 165);
+  --primary-foreground: oklch(0.13 0.005 264);
+  --warning: oklch(0.78 0.16 65);
+  --danger: oklch(0.68 0.22 25);
+  --info: oklch(0.70 0.16 240);
+  --accent: oklch(0.70 0.18 300);
+  --chart-1: oklch(0.72 0.18 165);
+  --chart-2: oklch(0.70 0.16 240);
+  --chart-3: oklch(0.70 0.18 300);
+  --chart-4: oklch(0.78 0.16 65);
+  --chart-5: oklch(0.72 0.20 0);
+  --shadow-glow: 0 0 0 1px oklch(0.27 0.012 264 / 0.6),
+    0 8px 24px -8px oklch(0 0 0 / 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--text);
+  --color-muted: var(--text-muted);
+  --color-dim: var(--text-dim);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-accent: var(--accent);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI",
+    sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-image: radial-gradient(
+      ellipse 1200px 800px at 50% -10%,
+      oklch(0.22 0.08 200 / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 800px 600px at 90% 100%,
+      oklch(0.20 0.10 300 / 0.12),
+      transparent 60%
+    );
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.font-mono,
+.tabular {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum", "zero";
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.30 0.010 264);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.40 0.012 264);
+}
+
+::selection {
+  background: oklch(0.72 0.18 165 / 0.3);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* driver.js dark theme */
+.driver-popover {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+.driver-popover-title {
+  color: var(--text) !important;
+}
+.driver-popover-description {
+  color: var(--text-muted) !important;
+}
+.driver-popover-next-btn,
+.driver-popover-prev-btn,
+.driver-popover-close-btn {
+  background: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  text-shadow: none !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+
+/* Recharts dark styles */
+.recharts-cartesian-grid line {
+  stroke: oklch(1 0 0 / 0.06);
+}
+.recharts-text {
+  fill: var(--text-muted) !important;
+  font-size: 11px;
+}
+.recharts-legend-item-text {
+  color: var(--text-muted) !important;
+}
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+.recharts-default-tooltip {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.5s ease forwards;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print,
+  aside,
+  nav,
+  footer {
+    display: none !important;
+  }
+}
